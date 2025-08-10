@@ -21,7 +21,7 @@ export default function FXConverter() {
       const data = await res.json();
       if (!res.ok || data?.result == null) throw new Error("No rate returned");
       setResult(`${amount} ${currency} = £${Number(data.result).toFixed(2)}`);
-    } catch (e) {
+    } catch {
       setErr("Error fetching exchange rate. Try again.");
     } finally {
       setLoading(false);
@@ -31,7 +31,9 @@ export default function FXConverter() {
   return (
     <div className="max-w-xl mx-auto mt-12 p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-4">Live FX Rate Tool</h1>
-      <p className="text-gray-600 mb-6">Convert foreign trades into GBP instantly using live exchange rates.</p>
+      <p className="text-gray-600 mb-6">
+        Convert foreign trades into GBP instantly using live exchange rates.
+      </p>
 
       <input
         type="number"
@@ -63,10 +65,8 @@ export default function FXConverter() {
 
       {err && <p className="text-red-600 mt-3 text-sm">{err}</p>}
       {result && <p className="mt-4 text-lg font-semibold">{result}</p>}
-      <p className="text-xs text-slate-500 mt-6">
-        Rates via exchangerate.host. For HMRC filing, use official EOD rates; this is a quick guide value.
-      </p>
     </div>
   );
 }
+
 
