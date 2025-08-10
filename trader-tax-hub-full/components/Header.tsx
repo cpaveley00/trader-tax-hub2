@@ -8,7 +8,7 @@ export default function Header() {
     { href: "/portal", label: "Client Portal" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
-    { href: "/fx", label: "FX Converter" } // ✅ Added here
+    { href: "/fx", label: "FX Converter" } // ← added
   ];
 
   return (
@@ -17,11 +17,7 @@ export default function Header() {
         <Link href="/" className="font-bold">Trader Tax Hub</Link>
         <nav className="flex gap-4 text-sm">
           {nav.map(n => (
-            <Link
-              key={n.href}
-              href={n.href}
-              className="hover:text-blue-700"
-            >
+            <Link key={n.href} href={n.href} className="hover:text-blue-700">
               {n.label}
             </Link>
           ))}
@@ -30,3 +26,4 @@ export default function Header() {
     </header>
   );
 }
+
