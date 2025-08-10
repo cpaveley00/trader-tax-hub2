@@ -41,7 +41,6 @@ export default function FXConverter() {
         <option value="JPY">JPY - Japanese Yen</option>
         <option value="AUD">AUD - Australian Dollar</option>
         <option value="CAD">CAD - Canadian Dollar</option>
-        {/* Add more currencies if needed */}
       </select>
 
       <button
@@ -55,3 +54,4 @@ export default function FXConverter() {
     </div>
   );
 }
+
