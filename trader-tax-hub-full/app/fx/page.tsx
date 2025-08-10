@@ -5,16 +5,26 @@ export default function FXConverter() {
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [result, setResult] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
 
   const convertCurrency = async () => {
-    if (!amount) return;
+    setErr(null);
+    setResult(null);
+    if (!amount) { setErr("Enter an amount."); return; }
+    setLoading(true);
     try {
-      const res = await fetch(`https://api.exchangerate.host/convert?from=${currency}&to=GBP&amount=${amount}`);
+      const res = await fetch(
+        `/api/fx?from=${encodeURIComponent(currency)}&to=GBP&amount=${encodeURIComponent(amount)}`,
+        { cache: "no-store" }
+      );
       const data = await res.json();
-      setResult(`${amount} ${currency} = £${data.result.toFixed(2)}`);
-    } catch (err) {
-      console.error(err);
-      setResult("Error fetching exchange rate.");
+      if (!res.ok || data?.result == null) throw new Error("No rate returned");
+      setResult(`${amount} ${currency} = £${Number(data.result).toFixed(2)}`);
+    } catch (e) {
+      setErr("Error fetching exchange rate. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,12 +55,17 @@ export default function FXConverter() {
 
       <button
         onClick={convertCurrency}
+        disabled={loading}
         className="bg-blue-600 text-white px-4 py-2 rounded w-full"
       >
-        Convert to GBP
+        {loading ? "Converting..." : "Convert to GBP"}
       </button>
 
+      {err && <p className="text-red-600 mt-3 text-sm">{err}</p>}
       {result && <p className="mt-4 text-lg font-semibold">{result}</p>}
+      <p className="text-xs text-slate-500 mt-6">
+        Rates via exchangerate.host. For HMRC filing, use official EOD rates; this is a quick guide value.
+      </p>
     </div>
   );
 }
