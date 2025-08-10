@@ -17,7 +17,7 @@ export async function GET(req: Request) {
 
     const data = await upstream.json();
     return NextResponse.json(data);
-  } catch (e) {
+  } catch (error) {
     return NextResponse.json({ error: "Failed to fetch rate" }, { status: 500 });
   }
 }
