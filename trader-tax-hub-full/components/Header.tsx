@@ -17,4 +17,5 @@ export default function Header() {
       </div>
     </header>
   );
+  <Link href="/fx">FX Converter</Link>
 }
